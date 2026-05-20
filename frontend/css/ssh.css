@@ -1,0 +1,176 @@
+/* SSH button in topbar */
+#ssh-btn {
+  position: relative;
+}
+
+#ssh-btn.active {
+  color: var(--green);
+  border-color: var(--green);
+  background: rgba(109, 185, 122, 0.1);
+}
+
+.ssh-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1.5px solid var(--bg-alt);
+}
+
+.ssh-dot.connecting { background: var(--yellow); }
+.ssh-dot.connected  { background: var(--green); }
+.ssh-dot.error      { background: var(--red); }
+
+/* SSH form (inside prefs modal pane) */
+.ssh-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ssh-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.ssh-field-host { flex: 2; }
+.ssh-field-port { flex: 0 0 100px; }
+
+.ssh-field label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.ssh-field input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 5px 8px;
+  outline: none;
+  width: 100%;
+  -moz-appearance: textfield;
+}
+
+.ssh-field input::-webkit-outer-spin-button,
+.ssh-field input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.ssh-field input:focus { border-color: var(--accent); }
+
+.ssh-command-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 7px 10px;
+  margin-bottom: 12px;
+}
+
+.ssh-command-row code {
+  flex: 1;
+  font-family: inherit;
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#ssh-copy-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+#ssh-copy-btn:hover { color: var(--text); }
+#ssh-copy-btn.copied { color: var(--green); }
+
+.ssh-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ssh-status {
+  font-size: 11px;
+}
+
+.ssh-status.disconnected { color: var(--text-muted); }
+.ssh-status.connecting   { color: var(--yellow); }
+.ssh-status.connected    { color: var(--green); }
+.ssh-status.error        { color: var(--red); }
+
+#ssh-connect-btn {
+  background: var(--accent);
+  border: none;
+  border-radius: 4px;
+  color: #000;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 16px;
+  cursor: pointer;
+  transition: opacity 0.1s;
+}
+
+#ssh-connect-btn:hover { opacity: 0.85; }
+
+#ssh-connect-btn.disconnect {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+#ssh-connect-btn.disconnect:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+/* Theme swatches (used in prefs theme pane) */
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: background 0.08s, color 0.08s;
+  user-select: none;
+  font-size: 12px;
+}
+
+.theme-option:hover { background: var(--bg-hover); color: var(--text); }
+
+.theme-option input[type="radio"] { display: none; }
+
+.theme-option:has(input:checked) { color: var(--accent); }
+
+.theme-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.1);
+}
+
+.theme-swatch[data-theme="warm-dark"]   { background: #e8a44a; }
+.theme-swatch[data-theme="github-dark"] { background: #58a6ff; }
+.theme-swatch[data-theme="catppuccin"]  { background: #cba6f7; }
+.theme-swatch[data-theme="tokyo-night"] { background: #7aa2f7; }
+.theme-swatch[data-theme="rose-pine"]   { background: #ebbcba; }
+.theme-swatch[data-theme="light"]       { background: #0969da; border-color: #d0d7de; }

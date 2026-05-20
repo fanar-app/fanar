@@ -1,0 +1,18 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "fanar-app",
+  "outputfilename": "fanar",
+  "frontend:install": "",
+  "frontend:build": "",
+  "frontend:dev:watcher": "",
+  "frontend:dev:serverUrl": "",
+  "info": {
+    "productName": "Fanar",
+    "productVersion": "0.1.0",
+    "productDescription": "Universal debug receiver for any language or runtime"
+  },
+  "author": {
+    "name": "Amara",
+    "email": "n.amara@protonmail.ch"
+  }
+}

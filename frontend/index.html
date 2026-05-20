@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fanar</title>
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/feed.css">
+  <link rel="stylesheet" href="/css/types.css">
+  <link rel="stylesheet" href="/css/ssh.css">
+</head>
+<body>
+  <div id="splash">
+    <img src="/img/appicon-splash.png" alt="Fanar" id="splash-icon">
+    <div id="splash-name">Fanar</div>
+  </div>
+
+  <div id="topbar">
+    <div id="brand">
+      <img src="/img/appicon.png" alt="" width="20" height="20" id="brand-icon">
+      Fanar
+    </div>
+    <div id="filters" role="group" aria-label="Filter by type">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="log">Log</button>
+      <button class="filter-btn" data-filter="object">Object</button>
+      <button class="filter-btn" data-filter="exception">Exception</button>
+      <button class="filter-btn" data-filter="query">Query</button>
+      <button class="filter-btn" data-filter="measure">Measure</button>
+      <button class="filter-btn" data-filter="request">Request</button>
+    </div>
+    <div id="actions">
+      <select id="sort-select" title="Sort order" aria-label="Sort order">
+        <option value="oldest">↑ Oldest</option>
+        <option value="newest">↓ Newest</option>
+        <option value="type">Type</option>
+        <option value="label">Label</option>
+      </select>
+      <button id="ssh-btn" title="SSH Tunnel" aria-label="SSH Tunnel" hidden>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="1" y="3" width="14" height="10" rx="2"/>
+          <path d="M4 8l2.5 2L4 12"/>
+          <line x1="9" y1="12" x2="12" y2="12"/>
+        </svg>
+        <span id="ssh-dot"></span>
+      </button>
+      <button id="search-btn" title="Search & Filter" aria-label="Search and filter">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="6.5" cy="6.5" r="4.5"/>
+          <line x1="10" y1="10" x2="14" y2="14"/>
+        </svg>
+        <span id="search-dot" hidden></span>
+      </button>
+      <button id="pause-btn" title="Pause" aria-label="Pause feed">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true">
+          <line x1="5" y1="3" x2="5" y2="13"/>
+          <line x1="11" y1="3" x2="11" y2="13"/>
+        </svg>
+      </button>
+      <button id="export-btn" title="Export JSON" aria-label="Export payloads as JSON">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 12h10M8 3v7M5 7l3 3 3-3"/>
+        </svg>
+      </button>
+      <button id="clear-btn" title="Clear" aria-label="Clear feed">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="2,5 14,5"/>
+          <path d="M5 5V3h6v2"/>
+          <path d="M3.5 5l.9 9h7.2l.9-9"/>
+        </svg>
+      </button>
+      <button id="prefs-btn" title="Preferences" aria-label="Preferences">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true">
+          <line x1="2" y1="5" x2="14" y2="5"/>
+          <line x1="2" y1="11" x2="14" y2="11"/>
+          <circle cx="5.5" cy="5" r="1.75" fill="var(--bg-alt)" stroke="currentColor"/>
+          <circle cx="10.5" cy="11" r="1.75" fill="var(--bg-alt)" stroke="currentColor"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="restart-banner" hidden>
+    <span id="restart-banner-msg"></span>
+    <button id="restart-now-btn">Restart now</button>
+    <button id="restart-dismiss-btn" aria-label="Dismiss">×</button>
+  </div>
+
+  <div id="search-panel" hidden>
+    <div class="search-input-row">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="search-input-icon" aria-hidden="true">
+        <circle cx="6.5" cy="6.5" r="4.5"/><line x1="10" y1="10" x2="14" y2="14"/>
+      </svg>
+      <input type="search" id="search" placeholder="Search labels, content, files…">
+    </div>
+    <div id="filter-chip-row" hidden>
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M2 4h12M4 8h8M6 12h4"/>
+      </svg>
+      <span class="showing-only">Showing only:</span>
+      <span id="active-filter-chip" class="filter-chip"></span>
+      <button id="clear-filter-btn" class="chip-clear" aria-label="Clear filter">×</button>
+    </div>
+  </div>
+
+  <main id="feed"><div class="empty-state">No payloads yet</div></main>
+
+  <div id="pause-overlay" hidden>
+    <span id="pause-overlay-msg">Paused</span>
+  </div>
+
+  <div id="scroll-new-badge" hidden>↓ <span id="scroll-new-count">0</span> new</div>
+
+  <!-- Preferences modal -->
+  <div id="prefs-modal" role="dialog" aria-modal="true" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="prefs-card">
+      <div class="prefs-header">
+        <span>Preferences</span>
+        <button id="prefs-close" aria-label="Close">×</button>
+      </div>
+      <div class="prefs-layout">
+        <nav class="prefs-nav">
+          <button class="prefs-tab active" data-tab="theme">Theme</button>
+          <button class="prefs-tab" data-tab="ssh">SSH Tunnel</button>
+          <button class="prefs-tab" data-tab="port">Port</button>
+          <button class="prefs-tab" data-tab="shortcuts">Shortcuts</button>
+        </nav>
+        <div class="prefs-body">
+
+          <!-- Theme pane -->
+          <section class="prefs-pane active" id="pane-theme">
+            <label class="theme-option"><input type="radio" name="theme" value="warm-dark"><span class="theme-swatch" data-theme="warm-dark"></span>Warm Dark</label>
+            <label class="theme-option"><input type="radio" name="theme" value="github-dark"><span class="theme-swatch" data-theme="github-dark"></span>GitHub Dark</label>
+            <label class="theme-option"><input type="radio" name="theme" value="catppuccin"><span class="theme-swatch" data-theme="catppuccin"></span>Catppuccin</label>
+            <label class="theme-option"><input type="radio" name="theme" value="tokyo-night"><span class="theme-swatch" data-theme="tokyo-night"></span>Tokyo Night</label>
+            <label class="theme-option"><input type="radio" name="theme" value="rose-pine"><span class="theme-swatch" data-theme="rose-pine"></span>Rosé Pine</label>
+            <label class="theme-option"><input type="radio" name="theme" value="light"><span class="theme-swatch" data-theme="light"></span>Light</label>
+          </section>
+
+          <!-- SSH pane -->
+          <section class="prefs-pane" id="pane-ssh">
+            <div class="ssh-row">
+              <div class="ssh-field">
+                <label>User</label>
+                <input id="ssh-user" type="text" placeholder="ubuntu" spellcheck="false">
+              </div>
+              <div class="ssh-field ssh-field-host">
+                <label>Host</label>
+                <input id="ssh-host" type="text" placeholder="myserver.com" spellcheck="false">
+              </div>
+              <div class="ssh-field ssh-field-port">
+                <label>Remote port</label>
+                <input id="ssh-remote-port" type="number" min="1" max="65535">
+              </div>
+            </div>
+            <div class="ssh-command-row">
+              <code id="ssh-command-text"></code>
+              <button id="ssh-copy-btn" title="Copy command">
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="5" width="9" height="9" rx="1.5"/>
+                  <path d="M11 5V3a1.5 1.5 0 00-1.5-1.5H3A1.5 1.5 0 001.5 3v6.5A1.5 1.5 0 003 11h2"/>
+                </svg>
+              </button>
+            </div>
+            <div class="ssh-footer">
+              <span id="ssh-status-text" class="ssh-status disconnected">Disconnected</span>
+              <button id="ssh-connect-btn">Connect</button>
+            </div>
+          </section>
+
+          <!-- Port pane -->
+          <section class="prefs-pane" id="pane-port">
+            <div class="pref-section">
+              <div class="pref-label">Listener port</div>
+              <p class="pref-hint">The port Fanar's HTTP server listens on. Requires a restart to apply.</p>
+              <div class="port-pref-row">
+                <input id="port-input" type="number" min="1" max="65535">
+                <button id="port-save-btn">Apply</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Shortcuts pane -->
+          <section class="prefs-pane" id="pane-shortcuts">
+            <ul class="shortcuts-list">
+              <li class="shortcut-row"><span>Clear feed</span><kbd>Ctrl K</kbd></li>
+              <li class="shortcut-row"><span>Focus search</span><kbd>Ctrl F</kbd></li>
+              <li class="shortcut-row"><span>Pause / resume</span><kbd>Space</kbd></li>
+              <li class="shortcut-row"><span>Clear search</span><kbd>Esc</kbd></li>
+              <li class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/sql-formatter.min.js"></script>
+  <script src="/wailsjs/runtime/runtime.js"></script>
+  <script src="/js/feed.js"></script>
+  <script src="/js/ssh.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/bridge.js"></script>
+</body>
+</html>
