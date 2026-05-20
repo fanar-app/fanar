@@ -56,7 +56,7 @@ jobs:
 
       - name: Zip macOS app bundle
         if: startsWith(matrix.os, 'macos')
-        run: cd build/bin && zip -r ${{ matrix.artifact }}.zip Fanar.app
+        run: cd build/bin && zip -r ${{ matrix.artifact }}.zip *.app
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
