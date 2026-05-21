@@ -13,7 +13,7 @@ jobs:
           - os: macos-latest
             platform: darwin/arm64
             artifact: fanar-darwin-arm64
-          - os: macos-13
+          - os: macos-latest
             platform: darwin/amd64
             artifact: fanar-darwin-amd64
           - os: windows-latest
